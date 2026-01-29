@@ -1,0 +1,45 @@
+# Chunker Service Build Configuration
+# Build from binary source using OpenShift's internal build system
+#
+# Usage:
+#   oc apply -f buildconfig.yaml -n <namespace>
+#   oc start-build chunker-service --from-dir=.. --follow -n <namespace>
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: chunker-service
+  labels:
+    app: chunker-service
+    app.kubernetes.io/name: chunker-service
+    app.kubernetes.io/component: rag
+    app.kubernetes.io/part-of: griot-and-grits
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: chunker-service
+  labels:
+    app: chunker-service
+    app.kubernetes.io/name: chunker-service
+    app.kubernetes.io/component: rag
+    app.kubernetes.io/part-of: griot-and-grits
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: chunker-service:latest
+  source:
+    type: Binary
+    binary: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Containerfile
+  resources:
+    limits:
+      cpu: "2"
+      memory: 2Gi
+    requests:
+      cpu: "1"
+      memory: 1Gi

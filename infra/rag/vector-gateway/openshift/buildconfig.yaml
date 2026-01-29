@@ -1,0 +1,43 @@
+# Vector Gateway Build Configuration
+# Build from binary source using OpenShift's internal build system
+#
+# Usage:
+#   oc apply -f buildconfig.yaml -n <namespace>
+#   oc start-build vector-gateway --from-dir=.. --follow -n <namespace>
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: vector-gateway
+  labels:
+    app: vector-gateway
+    app.kubernetes.io/name: vector-gateway
+    app.kubernetes.io/part-of: griot
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: vector-gateway
+  labels:
+    app: vector-gateway
+    app.kubernetes.io/name: vector-gateway
+    app.kubernetes.io/part-of: griot
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: vector-gateway:latest
+  source:
+    type: Binary
+    binary: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Containerfile
+  resources:
+    limits:
+      cpu: "2"
+      memory: 2Gi
+    requests:
+      cpu: "1"
+      memory: 1Gi

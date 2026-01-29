@@ -1,0 +1,30 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: retrieval-mcp
+  labels:
+    app: retrieval-mcp
+    app.kubernetes.io/name: retrieval-mcp
+    app.kubernetes.io/part-of: griot-rag
+spec:
+  source:
+    type: Binary
+    binary: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Containerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: retrieval-mcp:latest
+  triggers: []
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: retrieval-mcp
+  labels:
+    app: retrieval-mcp
+    app.kubernetes.io/name: retrieval-mcp
+    app.kubernetes.io/part-of: griot-rag

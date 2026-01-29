@@ -1,0 +1,124 @@
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: ingestion-mcp
+  labels:
+    app: ingestion-mcp
+    component: rag
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: ingestion-mcp:latest
+  source:
+    type: Binary
+    binary: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Containerfile
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: ingestion-mcp
+  labels:
+    app: ingestion-mcp
+    component: rag
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingestion-mcp
+  labels:
+    app: ingestion-mcp
+    component: rag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingestion-mcp
+  template:
+    metadata:
+      labels:
+        app: ingestion-mcp
+        component: rag
+    spec:
+      containers:
+      - name: ingestion-mcp
+        image: ingestion-mcp:latest
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        env:
+        - name: MCP_SERVER_NAME
+          value: "ingestion-mcp"
+        - name: MCP_TRANSPORT
+          value: "http"
+        - name: MCP_HTTP_HOST
+          value: "0.0.0.0"
+        - name: MCP_HTTP_PORT
+          value: "8080"
+        - name: MCP_HTTP_PATH
+          value: "/mcp/"
+        # Default collection for Griot & Grits
+        - name: DEFAULT_COLLECTION
+          value: "griot"
+        # Same-namespace service URLs
+        - name: DOCLING_SERVICE_URL
+          value: "http://docling-serve:8080"
+        - name: CHUNKER_SERVICE_URL
+          value: "http://chunker-service:8080"
+        - name: VECTOR_GATEWAY_URL
+          value: "http://vector-gateway:8080"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingestion-mcp
+  labels:
+    app: ingestion-mcp
+    component: rag
+spec:
+  selector:
+    app: ingestion-mcp
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ingestion-mcp
+  labels:
+    app: ingestion-mcp
+    component: rag
+spec:
+  path: /mcp/
+  to:
+    kind: Service
+    name: ingestion-mcp
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

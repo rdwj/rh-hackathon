@@ -13,7 +13,7 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 
 ### Milvus Deployment
 
-- [ ] Copy `advanced-rag/databases/milvus/openshift/` to `infra/rag/milvus/`
+- [x] Copy `advanced-rag/databases/milvus/openshift/` to `infra/rag/milvus/`
 - [ ] Request SCC grants from cluster admin (`anyuid` for default and milvus-minio service accounts)
 - [ ] Deploy Milvus via Helm chart
 - [ ] Verify Milvus health endpoint
@@ -21,22 +21,22 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 
 ### Vector Gateway
 
-- [ ] Copy `advanced-rag/services/vector_gateway/` to `infra/rag/vector-gateway/`
-- [ ] Update configuration to use Nomic embedding endpoint (MaaS)
-- [ ] Build and push container image
-- [ ] Deploy to OpenShift
-- [ ] Verify `/healthz` endpoint
-- [ ] Test `/upsert` with sample document
-- [ ] Test `/search` query
+- [x] Copy `advanced-rag/services/vector_gateway/` to `infra/rag/vector-gateway/`
+- [x] Update configuration to use Nomic embedding endpoint (MaaS)
+- [x] Build and push container image
+- [x] Deploy to OpenShift
+- [x] Verify `/healthz` endpoint
+- [ ] Test `/upsert` with sample document (requires Milvus)
+- [ ] Test `/search` query (requires Milvus)
 
 ## Phase 2: Ingestion Pipeline
 
 ### Chunker Service
 
-- [ ] Copy `advanced-rag/services/chunker_service/` to `infra/rag/chunker-service/`
-- [ ] Build and push container image
-- [ ] Deploy to OpenShift
-- [ ] Test chunking with sample text
+- [x] Copy `advanced-rag/services/chunker_service/` to `infra/rag/chunker-service/`
+- [x] Build and push container image
+- [x] Deploy to OpenShift
+- [x] Test chunking with sample text
 
 ### Docling
 
@@ -48,31 +48,31 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 
 ### Ingestion MCP Server
 
-- [ ] Copy `advanced-rag/ingestion-mcp/` to `infra/rag/ingestion-mcp/`
-- [ ] Update configuration for this project's services
-- [ ] Build and push container image
-- [ ] Deploy to OpenShift
-- [ ] Test `ingest_text` with sample content
-- [ ] Test `ingest_document` with sample PDF
-- [ ] Verify documents appear in Milvus collection
+- [x] Copy `advanced-rag/ingestion-mcp/` to `infra/rag/ingestion-mcp/`
+- [x] Update configuration for this project's services
+- [x] Build and push container image
+- [x] Deploy to OpenShift
+- [ ] Test `ingest_text` with sample content (requires Milvus)
+- [ ] Test `ingest_document` with sample PDF (requires Milvus + Docling)
+- [ ] Verify documents appear in Milvus collection (requires Milvus)
 
 ### MinIO Staging Bucket
 
-- [ ] Create `rag-staging` bucket in existing MinIO
-- [ ] Create subdirectories: `pending/`, `processing/`, `completed/`
-- [ ] Test file upload to staging area
+- [x] Create `rag-staging` bucket in existing MinIO
+- [x] Create subdirectories: `pending/`, `processing/`, `completed/`
+- [x] Test file upload to staging area
 
 ## Phase 3: Retrieval & Agent
 
 ### Retrieval MCP Server
 
-- [ ] Copy `advanced-rag/retrieval-mcp/` to `infra/rag/retrieval-mcp/`
-- [ ] Update configuration for this project's services
-- [ ] Build and push container image
-- [ ] Deploy to OpenShift
-- [ ] Test `rag_search` against ingested documents
-- [ ] Test `rag_list_collections`
-- [ ] Test `rag_list_sources`
+- [x] Copy `advanced-rag/retrieval-mcp/` to `infra/rag/retrieval-mcp/`
+- [x] Update configuration for this project's services
+- [x] Build and push container image
+- [x] Deploy to OpenShift
+- [ ] Test `rag_search` against ingested documents (requires Milvus)
+- [ ] Test `rag_list_collections` (requires Milvus)
+- [ ] Test `rag_list_sources` (requires Milvus)
 
 ### Griot Agent
 
@@ -164,6 +164,15 @@ Phase 4 (Frontend)
     │
     └── Chat UI ◄── Backend /chat
 ```
+
+## Deployed Services
+
+| Service | URL | Status |
+| ------- | --- | ------ |
+| Chunker Service | https://chunker-service-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com | Running |
+| Vector Gateway | https://vector-gateway-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com | Running (needs Milvus) |
+| Retrieval MCP | https://retrieval-mcp-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com/mcp/ | Running (needs Milvus) |
+| Ingestion MCP | https://ingestion-mcp-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com/mcp/ | Running (needs Milvus) |
 
 ## Notes
 
