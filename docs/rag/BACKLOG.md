@@ -14,10 +14,10 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 ### Milvus Deployment
 
 - [x] Copy `advanced-rag/databases/milvus/openshift/` to `infra/rag/milvus/`
-- [ ] Request SCC grants from cluster admin (`anyuid` for default and milvus-minio service accounts)
-- [ ] Deploy Milvus via Helm chart
-- [ ] Verify Milvus health endpoint
-- [ ] Test basic collection creation
+- [~] Request SCC grants from cluster admin (`anyuid` for default and milvus-minio service accounts)
+- [!] Deploy Milvus via Helm chart (blocked on SCC)
+- [!] Verify Milvus health endpoint (blocked on SCC)
+- [!] Test basic collection creation (blocked on SCC)
 
 ### Vector Gateway
 
@@ -26,8 +26,8 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 - [x] Build and push container image
 - [x] Deploy to OpenShift
 - [x] Verify `/healthz` endpoint
-- [ ] Test `/upsert` with sample document (requires Milvus)
-- [ ] Test `/search` query (requires Milvus)
+- [!] Test `/upsert` with sample document (blocked on Milvus)
+- [!] Test `/search` query (blocked on Milvus)
 
 ## Phase 2: Ingestion Pipeline
 
@@ -51,9 +51,9 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 - [x] Update configuration for this project's services
 - [x] Build and push container image
 - [x] Deploy to OpenShift
-- [ ] Test `ingest_text` with sample content (requires Milvus)
-- [ ] Test `ingest_document` with sample PDF (requires Milvus + Docling)
-- [ ] Verify documents appear in Milvus collection (requires Milvus)
+- [!] Test `ingest_text` with sample content (blocked on Milvus)
+- [!] Test `ingest_document` with sample PDF (blocked on Milvus)
+- [!] Verify documents appear in Milvus collection (blocked on Milvus)
 
 ### MinIO Staging Bucket
 
@@ -69,9 +69,9 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 - [x] Update configuration for this project's services
 - [x] Build and push container image
 - [x] Deploy to OpenShift
-- [ ] Test `rag_search` against ingested documents (requires Milvus)
-- [ ] Test `rag_list_collections` (requires Milvus)
-- [ ] Test `rag_list_sources` (requires Milvus)
+- [!] Test `rag_search` against ingested documents (blocked on Milvus)
+- [!] Test `rag_list_collections` (blocked on Milvus)
+- [!] Test `rag_list_sources` (blocked on Milvus)
 
 ### Griot Agent
 
@@ -81,7 +81,7 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 - [x] Implement LangGraph agent with tool calling (`src/agent.py`)
 - [x] Create Griot system prompt (`src/prompts.py`)
 - [x] Create CLI chat tool (`src/cli.py`)
-- [ ] Test agent with sample queries (requires Milvus)
+- [!] Test agent with sample queries (blocked on Milvus)
 
 ### Backend Integration
 
