@@ -64,15 +64,22 @@ NOMIC_API_KEY=<api-key>
 
 ## Components
 
-### To Deploy (Local Infrastructure)
+### Deployed to OpenShift (`infra/rag/`)
 
-| Component | Source | Purpose |
-| --------- | ------ | ------- |
-| Milvus | `advanced-rag/databases/milvus/` | Vector database |
-| Vector Gateway | `advanced-rag/services/vector_gateway/` | Milvus abstraction layer |
-| Chunker Service | `advanced-rag/services/chunker_service/` | Text segmentation |
-| ingestion-mcp | `advanced-rag/ingestion-mcp/` | Document ingestion MCP server |
-| retrieval-mcp | `advanced-rag/retrieval-mcp/` | RAG search MCP server |
+| Component | Location | Purpose |
+| --------- | -------- | ------- |
+| Milvus | `infra/rag/milvus/` | Vector database (Helm) |
+| Vector Gateway | `infra/rag/vector-gateway/` | Milvus abstraction layer |
+| Chunker Service | `infra/rag/chunker-service/` | Go-based text segmentation |
+| Docling | `infra/rag/docling-serve/` | PDF/document conversion |
+| ingestion-mcp | `infra/rag/ingestion-mcp/` | Document ingestion MCP server |
+| retrieval-mcp | `infra/rag/retrieval-mcp/` | RAG search MCP server |
+
+### Local Tools
+
+| Component | Location | Purpose |
+| --------- | -------- | ------- |
+| Griot Agent | `infra/rag/griot-agent/` | LangGraph agent with CLI chat interface |
 
 ### External (MaaS)
 
@@ -90,15 +97,26 @@ NOMIC_API_KEY=<api-key>
 2. **Deploy infrastructure:**
    ```bash
    # See BACKLOG.md for detailed steps
+   # Services are already built and deployed to gng-user50
    ```
 
 3. **Configure environment:**
    ```bash
-   cp .env.local.example .env.local
-   # Edit with your MaaS endpoints
+   # Edit .env.local with your MaaS endpoints
+   LLAMA_API_KEY=your-key
+   LLAMA_API_URL=https://...
+   NOMIC_API_KEY=your-key
    ```
 
-4. **Test the pipeline:**
+4. **Test the Griot Agent CLI:**
+   ```bash
+   cd infra/rag/griot-agent
+   python -m venv .venv && source .venv/bin/activate
+   pip install -r requirements.txt
+   python -m src.cli chat
+   ```
+
+5. **Test the pipeline:**
    ```bash
    # Ingest a sample document
    # Query via retrieval-mcp

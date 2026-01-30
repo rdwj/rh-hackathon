@@ -220,3 +220,11 @@ __marimo__/
 # Cloned application repositories
 gng-backend/
 gng-web/
+
+# Test audio/video files (large binaries)
+*.mp3
+*.mp4
+*.wav
+*.m4a
+*.flac
+*.ogg

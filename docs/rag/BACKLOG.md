@@ -40,11 +40,10 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 
 ### Docling
 
-- [ ] Determine deployment approach:
-  - [ ] Option A: Use Red Hat hosted Docling service
-  - [ ] Option B: Deploy local Docling instance
-  - [ ] Option C: Use existing deployment if available
+- [x] Copy `advanced-rag/docling-serve/` to `infra/rag/docling-serve/`
+- [ ] Deploy Docling (CPU overlay for dev, GPU for production)
 - [ ] Configure ingestion-mcp to use Docling endpoint
+- [ ] Test PDF to Markdown conversion
 
 ### Ingestion MCP Server
 
@@ -76,15 +75,13 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 
 ### Griot Agent
 
-- [ ] Design agent implementation approach:
-  - [ ] Option A: LangChain/LangGraph agent
-  - [ ] Option B: Custom agent loop with tool calling
-  - [ ] Option C: Use existing agent framework
-- [ ] Implement MCP client for retrieval-mcp
-- [ ] Implement LLM client for MaaS endpoint
-- [ ] Implement agent loop with tool calling
-- [ ] Create Griot system prompt
-- [ ] Test agent with sample queries
+- [x] Design agent implementation approach: **LangGraph with tool calling**
+- [x] Implement FastMCP client for retrieval-mcp (`src/mcp_client.py`)
+- [x] Implement LLM client for Llama-4-Scout MaaS endpoint
+- [x] Implement LangGraph agent with tool calling (`src/agent.py`)
+- [x] Create Griot system prompt (`src/prompts.py`)
+- [x] Create CLI chat tool (`src/cli.py`)
+- [ ] Test agent with sample queries (requires Milvus)
 
 ### Backend Integration
 
@@ -173,6 +170,12 @@ Phase 4 (Frontend)
 | Vector Gateway | https://vector-gateway-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com | Running (needs Milvus) |
 | Retrieval MCP | https://retrieval-mcp-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com/mcp/ | Running (needs Milvus) |
 | Ingestion MCP | https://ingestion-mcp-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com/mcp/ | Running (needs Milvus) |
+
+## Local Tools
+
+| Tool | Location | Description |
+| ---- | -------- | ----------- |
+| Griot Agent CLI | `infra/rag/griot-agent/` | LangGraph agent with interactive chat |
 
 ## Notes
 
