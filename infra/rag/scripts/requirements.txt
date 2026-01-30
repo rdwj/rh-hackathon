@@ -1,0 +1,2 @@
+# Requirements for RAG ingestion scripts
+httpx>=0.27.0
