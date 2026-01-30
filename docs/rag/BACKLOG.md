@@ -42,7 +42,7 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 
 - [x] Copy `advanced-rag/docling-serve/` to `infra/rag/docling-serve/`
 - [x] Deploy Docling (CPU overlay for dev)
-- [ ] Configure ingestion-mcp to use Docling endpoint
+- [x] Configure ingestion-mcp to use Docling endpoint
 - [ ] Test PDF to Markdown conversion
 
 ### Ingestion MCP Server

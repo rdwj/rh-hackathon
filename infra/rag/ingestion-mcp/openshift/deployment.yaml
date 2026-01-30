@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
       - name: ingestion-mcp
-        image: ingestion-mcp:latest
+        image: image-registry.openshift-image-registry.svc:5000/gng-user50/ingestion-mcp:latest
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -77,11 +77,11 @@ spec:
           value: "griot"
         # Same-namespace service URLs
         - name: DOCLING_SERVICE_URL
-          value: "http://docling-serve:8080"
+          value: "http://docling-serve:5001"
         - name: CHUNKER_SERVICE_URL
           value: "http://chunker-service:8080"
         - name: VECTOR_GATEWAY_URL
-          value: "http://vector-gateway:8080"
+          value: "http://vector-gateway:8000"
         resources:
           limits:
             memory: "512Mi"
