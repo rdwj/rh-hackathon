@@ -41,7 +41,7 @@ This backlog tracks implementation tasks for the "Ask the Griot" RAG feature ([I
 ### Docling
 
 - [x] Copy `advanced-rag/docling-serve/` to `infra/rag/docling-serve/`
-- [ ] Deploy Docling (CPU overlay for dev, GPU for production)
+- [x] Deploy Docling (CPU overlay for dev)
 - [ ] Configure ingestion-mcp to use Docling endpoint
 - [ ] Test PDF to Markdown conversion
 
@@ -170,6 +170,7 @@ Phase 4 (Frontend)
 | Vector Gateway | https://vector-gateway-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com | Running (needs Milvus) |
 | Retrieval MCP | https://retrieval-mcp-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com/mcp/ | Running (needs Milvus) |
 | Ingestion MCP | https://ingestion-mcp-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com/mcp/ | Running (needs Milvus) |
+| Docling | https://docling-serve-gng-user50.apps.ocp.tvbt2.sandbox3429.opentlc.com | Running |
 
 ## Local Tools
 
